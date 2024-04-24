@@ -18,7 +18,7 @@ export class Initializer {
      */
     constructor() {
         this.app = new PIXI.Application({
-            backgroundColor: 0x331133, resolution: window.devicePixelRatio || 1,
+            backgroundColor: 0x000000, resolution: window.devicePixelRatio || 1,
         });
 
         // Display application properly
@@ -62,7 +62,14 @@ export class Initializer {
         let loader = PIXI.Loader.shared;
 
         loader.add('background', 'assets/background/background.jpg');
-        loader.add('symbol', 'assets/symbols/symbol_1.png');
+        loader.add('symbol1', 'assets/symbols/symbol_1.png');
+        loader.add('symbol2', 'assets/symbols/symbol_2.png');
+        loader.add('symbol3', 'assets/symbols/symbol_3.png');
+        loader.add('symbol4', 'assets/symbols/symbol_4.png');
+        loader.add('symbol5', 'assets/symbols/symbol_5.png');
+        loader.add('symbol6', 'assets/symbols/symbol_6.png');
+        loader.add('symbol7', 'assets/symbols/symbol_7.png');
+        loader.add('symbol8', 'assets/symbols/symbol_8.png');
         loader.onStart.add(this.onLoadingStarted.bind(this));
         loader.onComplete.add(this.onAssetsLoaded.bind(this));
         loader.load();
