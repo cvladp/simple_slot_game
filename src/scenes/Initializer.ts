@@ -9,6 +9,10 @@ import { MainSlot } from './MainSlot';
 export class Initializer {
     public app: PIXI.Application;
 
+    private appWidth: number = 1920;
+    private appHeight: number = 1080;
+    private aspectRatio = this.appWidth / this.appHeight;
+
     /**
      * Constructor method, used to initialize the main pixi application
      */
@@ -22,22 +26,33 @@ export class Initializer {
         this.app.renderer.view.style.position = 'absolute';
         this.app.renderer.view.style.display = 'block';
 
-        this.resizeApp();
-        window.addEventListener('resize', () => {
-            this.resizeApp();
-        });
+        window.addEventListener('resize', this.onResize.bind(this));
 
         // Load assets
         document.body.appendChild(this.app.view);
-
+        this.onResize();
         this.startAppLoader();
     }
 
-    // Method to resize the application to fill the screen
     private resizeApp(): void {
         const width = window.innerWidth;
         const height = window.innerHeight;
         this.app.renderer.resize(width, height);
+    }
+
+    private onResize(): void {
+        this.app.renderer.resize(window.innerWidth, window.innerHeight);
+        this.app.stage.scale.x = this.app.renderer.width / this.appWidth;
+        this.app.stage.scale.y = this.app.renderer.height / this.appHeight;
+
+        if (this.app.renderer.width / this.app.renderer.height <= this.aspectRatio) {
+            this.app.stage.scale.y = this.app.stage.scale.x;
+        } else {
+            this.app.stage.scale.x = this.app.stage.scale.y;
+        }
+
+        this.app.stage.x = window.innerWidth / 2 - this.app.stage.width / 2;
+        this.app.stage.y = window.innerHeight / 2 - this.app.stage.height / 2;
     }
 
     /**
@@ -66,6 +81,9 @@ export class Initializer {
      */
     private onAssetsLoaded(): void {
         const main = new MainSlot(this.app);
+        this.onResize();
     }
 }
+
+
 
