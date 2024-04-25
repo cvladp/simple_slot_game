@@ -34,12 +34,9 @@ export class Initializer {
         this.startAppLoader();
     }
 
-    private resizeApp(): void {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        this.app.renderer.resize(width, height);
-    }
-
+    /**
+    * Handle window resize event
+    */
     private onResize(): void {
         this.app.renderer.resize(window.innerWidth, window.innerHeight);
         this.app.stage.scale.x = this.app.renderer.width / this.appWidth;

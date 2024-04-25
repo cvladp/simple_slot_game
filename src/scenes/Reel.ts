@@ -1,26 +1,32 @@
 import { Container, Graphics } from "pixi.js";
 import { Symbol } from './Symbol';
 import * as PIXI from 'pixi.js';
-import gsap, { random } from "gsap";
-
+import gsap from "gsap";
+/**
+ * Represents a single spinning reel in a slot machine game.
+ */
 export class Reel extends Container {
 
     private _symArray: Array<Symbol> = [];
-    // @ts-ignore
-    public _symbol: Symbol;
-    // @ts-ignore
     private _landingSymbol: Symbol;
-
     private _symbolsPool: Array<Symbol> = [];
 
+    public _symbol: Symbol;
+    public _spinDuration: number = 4;
+
+    /**
+     * Creates an instance of Reel.
+     */
     constructor() {
         super();
         this.populateSymbolPool();
         this.addInitialSymbol();
         this.addMask();
-        this.spinReels();
     }
 
+    /**
+     * Populates the symbol pool with textures for spinning.
+     */
     private populateSymbolPool(): void {
         for (let i = 1; i < 15; i++) {
             let randomIndex = Math.floor(gsap.utils.random(1, 8));
@@ -30,7 +36,9 @@ export class Reel extends Container {
         }
     }
 
-
+    /**
+     * Adds the initial symbol to the reel.
+     */
     private addInitialSymbol(): void {
         let texture = PIXI.Loader.shared.resources['symbol1'].texture;
         this._symbol = new Symbol(texture);
@@ -39,6 +47,9 @@ export class Reel extends Container {
 
     }
 
+    /**
+    * Adds a mask to the reel to clip displayed symbols.
+    */
     private addMask(): void {
         // Determine the dimensions of the _symbol
         const symbolWidth = this._symbol.width;
@@ -57,6 +68,9 @@ export class Reel extends Container {
         this.addChild(mask);
     }
 
+    /**
+     * Adds symbols to the virtual reel for spinning.
+     */
     private addVirtualReels(): void {
 
         this._symbolsPool = this.shuffleArray(this._symbolsPool);
@@ -70,6 +84,9 @@ export class Reel extends Container {
         }
     }
 
+    /**
+      * Adds the landing symbol to the reel after spinning.
+      */
     private addLandingSymbol(): void {
         // random landing symbol
         let randomIndex = Math.floor(gsap.utils.random(1, 8));
@@ -82,30 +99,38 @@ export class Reel extends Container {
         this.addChild(this._landingSymbol);
     }
 
-
-    private spinReels(): void {
+    /**
+     * Initiates the spinning animation for the reel.
+     */
+    public spinReel(): void {
         this.addVirtualReels();
         this.addLandingSymbol();
 
         for (let i = 0; i < this._symArray.length; i++) {
             gsap.to(this._symArray[i], {
-                y: this._symArray[i].y + this._symArray[i].height * (this._symArray.length - 1), duration: 4, ease: "power1.inOut", onComplete: () => {
+                y: this._symArray[i].y + this._symArray[i].height * (this._symArray.length - 1), duration: this._spinDuration, ease: "power1.inOut", onComplete: () => {
                     if (i == this._symArray.length - 1) {
                         this.resetReels();
-                        this.spinReels();
                     }
-
                 }
             });
         }
     }
 
+    /**
+     * Resets the reel to its initial state after spinning.
+     */
     private resetReels(): void {
         this._symbol = this._landingSymbol;
         this._symArray = [];
         this._symArray.push(this._symbol);
     }
 
+    /**
+     * Shuffles the elements of an array.
+     * @param array The array to be shuffled.
+     * @returns The shuffled array.
+     */
     private shuffleArray<T>(array: T[]): T[] {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));

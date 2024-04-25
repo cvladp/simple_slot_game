@@ -6,6 +6,6 @@
         "module": "CommonJS",
         "sourceMap": true,
         // Set your preferences here for TypeScript
-        "strict": true
+        "strictPropertyInitialization": false,
     }
 }
