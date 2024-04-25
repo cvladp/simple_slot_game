@@ -22,6 +22,8 @@ export class Background extends PIXI.Container {
     private addElements(): void {
         const texture = PIXI.Loader.shared.resources['background'].texture;
         this._bgSprite = new Sprite(texture);
+        this._bgSprite.scale.set(0.5);
+        this._bgSprite.tint = 0x44aa31;
         this.addChild(this._bgSprite);
     }
 }

@@ -53,8 +53,8 @@ export class MainSlot extends Container {
      */
     private addButton(): void {
         this._app.stage.addChild(this._button);
-        this._button.x = this._background.width * 0.9;
-        this._button.y = this._background.height * 0.5;
+        this._button.x = this._reels.x + this._reels.width * 1.5;
+        this._button.y = this._reels.y + this._button.height * 0.65;
     }
 
     /**

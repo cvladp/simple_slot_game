@@ -11,7 +11,7 @@ export class Reels extends Container {
     private _reelsNumber: number;
     private _reelsSpacer: number = 1.02;
     private _reelsArray: Array<Reel> = [];
-    private _reelsSpinDelay: number = 0.15;
+    private _reelsSpinDelay: number = 0.05;
 
     constructor(reelNumber: number) {
         super();

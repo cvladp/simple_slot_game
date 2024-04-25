@@ -18,7 +18,10 @@ export class Initializer {
      */
     constructor() {
         this.app = new PIXI.Application({
-            backgroundColor: 0x000000, resolution: window.devicePixelRatio || 1,
+            width: this.appWidth,
+            height: this.appHeight,
+            backgroundColor: 0x000000,
+            resolution: window.devicePixelRatio || 1,
         });
 
         // Display application properly

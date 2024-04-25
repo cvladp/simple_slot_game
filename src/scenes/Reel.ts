@@ -40,7 +40,8 @@ export class Reel extends Container {
      * Adds the initial symbol to the reel.
      */
     private addInitialSymbol(): void {
-        let texture = PIXI.Loader.shared.resources['symbol1'].texture;
+        let randomIndex = Math.floor(gsap.utils.random(1, 8));
+        let texture = PIXI.Loader.shared.resources['symbol' + randomIndex].texture;
         this._symbol = new Symbol(texture);
         this._symArray.push(this._symbol);
         this.addChild(this._symbol);
@@ -100,7 +101,7 @@ export class Reel extends Container {
     }
 
     /**
-     * Initiates the spinning animation for the reel.
+     * Initiates the spin animation of the reel
      */
     public spinReel(): void {
         this.addVirtualReels();
