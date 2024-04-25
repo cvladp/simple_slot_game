@@ -2,20 +2,20 @@ import { Container } from "pixi.js";
 import { Reel } from "./Reel";
 import * as PIXI from 'pixi.js';
 import gsap from "gsap";
+import { Units } from "../system/Units";
 
 /**
  * Represents a collection of spinning reels in a slot machine game.
  */
 export class Reels extends Container {
 
-    private _reelsNumber: number;
+    private _reelsNumber: number = Units.MAX_REELS_NUMBER;
     private _reelsSpacer: number = 1.02;
     private _reelsArray: Array<Reel> = [];
     private _reelsSpinDelay: number = 0.05;
 
-    constructor(reelNumber: number) {
+    constructor() {
         super();
-        this._reelsNumber = reelNumber;
         this.initReels();
         this.addReelsFrame();
     }
@@ -25,7 +25,7 @@ export class Reels extends Container {
      */
     private initReels(): void {
         for (let i = 0; i < this._reelsNumber; i++) {
-            var reel = new Reel();
+            var reel = new Reel(i);
             this._reelsArray.push(reel);
             this.addChild(reel);
             reel.x = reel.width * i * this._reelsSpacer;
@@ -54,7 +54,7 @@ export class Reels extends Container {
         for (let i = 0; i < this._reelsArray.length; i++) {
             gsap.delayedCall(this._reelsSpinDelay * i, () => {
                 this._reelsArray[i].spinReel();
-            })
+            });
         }
     }
 }

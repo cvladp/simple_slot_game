@@ -22,7 +22,7 @@ export class MainSlot extends Container {
 
         this._app = app;
         this._background = new Background();
-        this._reels = new Reels(3);
+        this._reels = new Reels();
         this._button = new Button(this.buttonClicked.bind(this));
         this.addBackground();
         this.addReels();

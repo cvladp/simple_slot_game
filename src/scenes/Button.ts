@@ -1,6 +1,8 @@
 import { Container } from "pixi.js";
 import * as PIXI from 'pixi.js';
 import gsap from "gsap";
+import { EventEmitter } from "../system/EventEmitter";
+import { NotificationNames } from "../system/NotificationNames";
 
 /**
  * The Button class represents a clickable button component in a PIXI.js application. 
@@ -15,6 +17,8 @@ export class Button extends Container {
         this.initButton();
         this._callback = callback;
         this.enableButton();
+
+        EventEmitter.getInstance().on(NotificationNames.REELS_SPIN_STOPPED, this.enableButton.bind(this));
     }
 
     /**
@@ -58,8 +62,6 @@ export class Button extends Container {
             }
         });
 
-        // Re-enable the button after a delay using GSAP delayedCall
-        gsap.delayedCall(4.5, this.enableButton.bind(this));
     }
 
     /**

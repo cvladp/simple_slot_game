@@ -2,6 +2,9 @@ import { Container, Graphics } from "pixi.js";
 import { Symbol } from './Symbol';
 import * as PIXI from 'pixi.js';
 import gsap from "gsap";
+import { EventEmitter } from "../system/EventEmitter";
+import { NotificationNames } from "../system/NotificationNames";
+import { Units } from "../system/Units";
 /**
  * Represents a single spinning reel in a slot machine game.
  */
@@ -10,6 +13,7 @@ export class Reel extends Container {
     private _symArray: Array<Symbol> = [];
     private _landingSymbol: Symbol;
     private _symbolsPool: Array<Symbol> = [];
+    private _reelId: number;
 
     public _symbol: Symbol;
     public _spinDuration: number = 4;
@@ -17,8 +21,9 @@ export class Reel extends Container {
     /**
      * Creates an instance of Reel.
      */
-    constructor() {
+    constructor(reelId: number) {
         super();
+        this._reelId = reelId;
         this.populateSymbolPool();
         this.addInitialSymbol();
         this.addMask();
@@ -112,7 +117,13 @@ export class Reel extends Container {
                 y: this._symArray[i].y + this._symArray[i].height * (this._symArray.length - 1), duration: this._spinDuration, ease: "power1.inOut", onComplete: () => {
                     if (i == this._symArray.length - 1) {
                         this.resetReels();
+                        // last reel finished spinning
+                        if (this._reelId == Units.MAX_REELS_NUMBER - 1) {
+                            EventEmitter.getInstance().emit(NotificationNames.REELS_SPIN_STOPPED);
+                        }
                     }
+
+
                 }
             });
         }
