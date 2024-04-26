@@ -145,9 +145,11 @@ export class Reels extends Container {
             return;
         }
 
+        let animationDelay: number = 0.25;
+
         this.setChildIndex(this._topSymbols[currentSymbolIndex], this.children.length - 1);
         gsap.to(this._topSymbols[currentSymbolIndex].scale, {
-            duration: 0.25, x: 1.5, y: 1.5, onComplete: () => {
+            duration: 0.25, x: 1.25, y: 1.25, onComplete: () => {
                 // check if the symbol was not removed during the first tween
                 if (this._topSymbols[currentSymbolIndex] == null) {
                     return;
@@ -155,10 +157,14 @@ export class Reels extends Container {
                 gsap.to(this._topSymbols[currentSymbolIndex].scale, { duration: 0.25, x: 1, y: 1 });
                 currentSymbolIndex++;
 
-                // if index is still a valid reel number call this method recursively
-                if (currentSymbolIndex < this._topSymbols.length) {
-                    this.animateSymbol(currentSymbolIndex);
+                if (currentSymbolIndex == this._topSymbols.length) {
+                    animationDelay = 1;
+                    currentSymbolIndex = 0;
                 }
+
+                gsap.delayedCall(animationDelay, () => {
+                    this.animateSymbol(currentSymbolIndex);
+                });
             }
         });
     }
