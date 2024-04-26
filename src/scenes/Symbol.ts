@@ -17,4 +17,9 @@ export class Symbol extends Container {
         this._symbSprite = new Sprite(this._texture);
         this.addChild(this._symbSprite);
     }
+
+
+    public getSymbolTexture(): Texture {
+        return this._texture;
+    }
 }

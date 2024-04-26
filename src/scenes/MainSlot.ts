@@ -1,4 +1,6 @@
 import { Application, Container } from 'pixi.js';
+import { EventEmitter } from '../system/EventEmitter';
+import { NotificationNames } from '../system/NotificationNames';
 import { Background } from './Background';
 import { Button } from './Button';
 import { Reels } from './Reels';

@@ -52,12 +52,13 @@ export class Button extends Container {
     private onClick(): void {
         this.disableButton();
         gsap.to(this._background, {
-            y: this._background.y + 10, x: this._background.x + 1, ease: "power1.inOut", duration: 0.1, onComplete: () => {
+            y: this._background.y + 5, ease: "power1.inOut", duration: 0.1, onComplete: () => {
                 if (this._callback) {
+                    // triggers the onClick callback to be managed outside of this class
                     this._callback();
                 }
                 gsap.to(this._background, {
-                    y: this._background.y - 10, x: this._background.x - 1, ease: "power1.inOut", duration: 0.1
+                    y: this._background.y - 5, ease: "power1.inOut", duration: 0.1
                 });
             }
         });
@@ -71,6 +72,7 @@ export class Button extends Container {
         this.interactive = true;
         this.buttonMode = true;
         this.on('pointerdown', this.onClick.bind(this));
+        this.alpha = 1;
     }
 
 
@@ -78,6 +80,7 @@ export class Button extends Container {
      * Disables the button by removing interactivity and listeners.
      */
     private disableButton(): void {
+        this.alpha = 0.5;
         this.interactive = false;
         this.buttonMode = false;
         this.removeAllListeners();
