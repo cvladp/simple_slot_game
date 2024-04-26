@@ -27,13 +27,10 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
         // This line is VERY important for VS Code debugging to attach properly
-        // Tamper with it at your own risks
-        devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     },
     plugins: [
         // No need to write a index.html
-        new HtmlWebpackPlugin(),
-        // Do not accumulate files in ./dist
+        new HtmlWebpackPlugin({ template: './index.html', }),
         new CleanWebpackPlugin(),
         // Copy assets to serve them
         new CopyPlugin([{ from: 'assets', to: 'assets' }]),
