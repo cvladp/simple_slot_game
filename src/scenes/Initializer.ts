@@ -21,7 +21,7 @@ export class Initializer {
             width: this.appWidth,
             height: this.appHeight,
             backgroundColor: 0x000000,
-            resolution: window.devicePixelRatio || 1,
+            // resolution: window.devicePixelRatio || 1,
         });
 
         // Display application properly
@@ -34,7 +34,7 @@ export class Initializer {
         // Load assets
         document.body.appendChild(this.app.view);
         this.onResize();
-        this.startAppLoader();
+
     }
 
     /**
@@ -58,7 +58,7 @@ export class Initializer {
     /**
      * Method used to load ressources into pixi loader
      */
-    private startAppLoader(): void {
+    public startAppLoader(): void {
         let loader = PIXI.Loader.shared;
 
         loader.add('background', 'assets/background/background.jpg');
