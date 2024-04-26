@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import gsap from "gsap";
 import { EventEmitter } from "../system/EventEmitter";
 import { NotificationNames } from "../system/NotificationNames";
+import { Howl } from 'howler';
 
 /**
  * The Button class represents a clickable button component in a PIXI.js application. 
@@ -11,6 +12,8 @@ import { NotificationNames } from "../system/NotificationNames";
 export class Button extends Container {
     private _background: PIXI.Graphics;
     private _callback: () => void;
+    private _clickSound: Howl;
+
 
     constructor(callback: () => void) {
         super();
@@ -43,6 +46,11 @@ export class Button extends Container {
         label.anchor.set(0.5, 0.5);
         this._background.addChild(label);
         this._background.cacheAsBitmap = true;
+
+        this._clickSound = new Howl({
+            src: ['assets/music/btnClick.mp3'],
+            loop: false
+        });
     }
 
     /**
@@ -51,6 +59,7 @@ export class Button extends Container {
      */
     private onClick(): void {
         this.disableButton();
+        this._clickSound.play();
         gsap.to(this._background, {
             y: this._background.y + 5, ease: "power1.inOut", duration: 0.1, onComplete: () => {
                 if (this._callback) {

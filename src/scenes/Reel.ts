@@ -5,6 +5,8 @@ import gsap from "gsap";
 import { EventEmitter } from "../system/EventEmitter";
 import { NotificationNames } from "../system/NotificationNames";
 import { Units } from "../system/Units";
+
+import { Howl } from 'howler';
 /**
  * Represents a single spinning reel in a slot machine game.
  */
@@ -14,9 +16,11 @@ export class Reel extends Container {
     private _landingSymbol: Symbol;
     private _symbolsPool: Array<Symbol> = [];
     private _reelId: number;
+    private _reelSpinSound: Howl;
+    private _reelStopSound: Howl;
 
     public _symbol: Symbol;
-    public _spinDuration: number = 4;
+    public _spinDuration: number = 3;
 
     /**
      * Creates an instance of Reel.
@@ -27,6 +31,7 @@ export class Reel extends Container {
         this.populateSymbolPool();
         this.addInitialSymbol();
         this.addMask();
+        this.initSounds();
     }
 
     /**
@@ -111,11 +116,13 @@ export class Reel extends Container {
     public spinReel(): void {
         this.addVirtualReels();
         this.addLandingSymbol();
+        this._reelSpinSound.play();
 
         for (let i = 0; i < this._symArray.length; i++) {
             gsap.to(this._symArray[i], {
                 y: this._symArray[i].y + this._symArray[i].height * (this._symArray.length - 1), duration: this._spinDuration, ease: "power1.inOut", onComplete: () => {
                     if (i == this._symArray.length - 1) {
+                        this._reelStopSound.play();
                         this.resetReels();
                         // last reel finished spinning
                         if (this._reelId == Units.MAX_REELS_NUMBER - 1) {
@@ -149,6 +156,22 @@ export class Reel extends Container {
             [array[i], array[j]] = [array[j], array[i]]; // Swap elements at indices i and j
         }
         return array;
+    }
+
+    /**
+     * Initializes sounds used in this class.
+     */
+    private initSounds(): void {
+        this._reelSpinSound = new Howl({
+            src: ['assets/music/reelSpin.mp3'],
+            loop: false, volume: 1
+        });
+
+        this._reelStopSound = new Howl({
+            src: ['assets/music/reelStop.mp3'],
+            loop: false, volume: 0.05
+        });
+
     }
 
 }

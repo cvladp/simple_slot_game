@@ -18,7 +18,9 @@ export class Symbol extends Container {
         this.addChild(this._symbSprite);
     }
 
-
+    /**
+     * Getter for symbol texture
+     */
     public getSymbolTexture(): Texture {
         return this._texture;
     }

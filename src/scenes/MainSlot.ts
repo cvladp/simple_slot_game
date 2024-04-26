@@ -4,6 +4,7 @@ import { NotificationNames } from '../system/NotificationNames';
 import { Background } from './Background';
 import { Button } from './Button';
 import { Reels } from './Reels';
+import { Howl } from 'howler';
 
 /**
  * Main game scene container.
@@ -29,7 +30,6 @@ export class MainSlot extends Container {
         this.addBackground();
         this.addReels();
         this.addButton();
-
     }
 
     /**
@@ -39,6 +39,15 @@ export class MainSlot extends Container {
         this._app.stage.addChild(this._background);
         this._background.x = 0;
         this._background.y = 0;
+        this.startBackgroundMusic();
+    }
+
+    private startBackgroundMusic(): void {
+        const bgMusic = new Howl({
+            src: ['assets/music/tribalBG.mp3'],
+            loop: true, volume: 0.25
+        });
+        bgMusic.play();
     }
 
     /**

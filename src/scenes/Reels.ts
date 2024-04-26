@@ -6,6 +6,7 @@ import { Units } from "../system/Units";
 import { EventEmitter } from "../system/EventEmitter";
 import { NotificationNames } from "../system/NotificationNames";
 import { Symbol } from './Symbol';
+import { Howl } from 'howler';
 
 /**
  * Represents a collection of spinning reels in a slot machine game.
@@ -15,7 +16,8 @@ export class Reels extends Container {
     private _reelsNumber: number = Units.MAX_REELS_NUMBER;
     private _reelsSpacer: number = 1.02;
     private _reelsArray: Array<Reel> = [];
-    private _reelsSpinDelay: number = 0.05;
+    private _reelsSpinDelay: number = 0.1;
+    private _winSound: Howl;
 
     private _topSymbols: Array<Symbol> = [];
 
@@ -23,6 +25,7 @@ export class Reels extends Container {
         super();
         this.initReels();
         this.addReelsFrame();
+        this.initSounds();
 
         EventEmitter.getInstance().on(NotificationNames.REELS_SPIN_STOPPED, this.getTopSymbols.bind(this));
     }
@@ -37,6 +40,16 @@ export class Reels extends Container {
             this.addChild(reel);
             reel.x = reel.width * i * this._reelsSpacer;
         }
+    }
+
+    /**
+     * Initializes sounds used in this class.
+     */
+    private initSounds(): void {
+        this._winSound = new Howl({
+            src: ['assets/music/winningSound.mp3'],
+            loop: false, volume: 1
+        });
     }
 
     /**
@@ -88,6 +101,7 @@ export class Reels extends Container {
      * Checks if there is a winning combination on the top symbols
      */
     private checkForWins(): void {
+        this._winSound.play();
 
         if (this._topSymbols.length != this._reelsArray.length) {
             throw new Error("Invalid number of top symbols");
@@ -123,7 +137,7 @@ export class Reels extends Container {
             this._topSymbols.splice(1, 1);
             return;
         }
-
+        this._winSound.stop();
         // No wins
         this.resetTopSymbol();
     }
