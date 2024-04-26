@@ -32,14 +32,14 @@ export class Button extends Container {
         this._background = new PIXI.Graphics();
         this._background.lineStyle(10, 0xF5F5F5, 1);
         this._background.beginFill(0xffffff, 0.2);
-        this._background.drawCircle(0, 0, 75); // Adjust width and height as needed
+        this._background.drawCircle(0, 0, 90); // Adjust width and height as needed
         this._background.endFill();
         this.addChild(this._background);
 
         // Create label text
         let label = new PIXI.Text("SPIN", {
             fontFamily: 'Arial',
-            fontSize: 36,
+            fontSize: 50,
             fill: 0xF5F5F5,
             fontWeight: 'bold' // Set the font weight to bold
         });

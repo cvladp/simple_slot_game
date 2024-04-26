@@ -30,6 +30,9 @@ export class MainSlot extends Container {
         this.addBackground();
         this.addReels();
         this.addButton();
+        this.onResize();
+
+        window.addEventListener('resize', this.onResize.bind(this));
     }
 
     /**
@@ -48,6 +51,39 @@ export class MainSlot extends Container {
             loop: true, volume: 0.25
         });
         bgMusic.play();
+    }
+
+    private onResize(): void {
+
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const isPortrait = height > width;
+
+        // Adjust the scaling and positioning based on orientation
+        if (isPortrait) {
+
+            this._background.x = 0;
+            this._background.y = 0;
+
+            this._reels.x = 800
+            this._reels.y = 700;
+
+            this._button.x = 1250;
+            this._button.y = 1500;
+
+        } else {
+
+            this._background.x = 0;
+            this._background.y = 0;
+
+            this._reels.x = 825;
+            this._reels.y = 1100;
+
+            this._button.x = 2000;
+            this._button.y = 1250;
+
+        }
     }
 
     /**

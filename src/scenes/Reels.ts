@@ -59,7 +59,7 @@ export class Reels extends Container {
         const frame = new PIXI.Graphics();
         const xPos = this._reelsArray[0]._symbol.x - 5;
         const yPos = this._reelsArray[0]._symbol.y - 5;
-        const frameWidth = this._reelsArray[0]._symbol.width * this._reelsNumber * this._reelsSpacer + 5;
+        const frameWidth = this._reelsArray[0]._symbol.width * this._reelsNumber * this._reelsSpacer + 4.5;
         const frameHeight = this._reelsArray[0]._symbol.y + this._reelsArray[0]._symbol.height + 10;
 
         frame.lineStyle(10, 0xBEBEBE);
